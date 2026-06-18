@@ -14,16 +14,203 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      chat_messages: {
+        Row: {
+          client_id: string
+          content: string
+          created_at: string
+          id: string
+          role: string
+        }
+        Insert: {
+          client_id: string
+          content: string
+          created_at?: string
+          id?: string
+          role: string
+        }
+        Update: {
+          client_id?: string
+          content?: string
+          created_at?: string
+          id?: string
+          role?: string
+        }
+        Relationships: []
+      }
+      check_ins: {
+        Row: {
+          adherence: number | null
+          client_id: string
+          created_at: string
+          id: string
+          mood: string | null
+          notes: string | null
+          weight: number | null
+        }
+        Insert: {
+          adherence?: number | null
+          client_id: string
+          created_at?: string
+          id?: string
+          mood?: string | null
+          notes?: string | null
+          weight?: number | null
+        }
+        Update: {
+          adherence?: number | null
+          client_id?: string
+          created_at?: string
+          id?: string
+          mood?: string | null
+          notes?: string | null
+          weight?: number | null
+        }
+        Relationships: []
+      }
+      diets: {
+        Row: {
+          ai_content: Json | null
+          approved_at: string | null
+          client_id: string
+          created_at: string
+          guidance: string | null
+          id: string
+          nutritionist_id: string | null
+          pdf_url: string | null
+          questionnaire_id: string | null
+          shopping_list: Json | null
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          ai_content?: Json | null
+          approved_at?: string | null
+          client_id: string
+          created_at?: string
+          guidance?: string | null
+          id?: string
+          nutritionist_id?: string | null
+          pdf_url?: string | null
+          questionnaire_id?: string | null
+          shopping_list?: Json | null
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Update: {
+          ai_content?: Json | null
+          approved_at?: string | null
+          client_id?: string
+          created_at?: string
+          guidance?: string | null
+          id?: string
+          nutritionist_id?: string | null
+          pdf_url?: string | null
+          questionnaire_id?: string | null
+          shopping_list?: Json | null
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "diets_questionnaire_id_fkey"
+            columns: ["questionnaire_id"]
+            isOneToOne: false
+            referencedRelation: "questionnaires"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          full_name: string | null
+          id: string
+          phone: string | null
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          full_name?: string | null
+          id: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      questionnaires: {
+        Row: {
+          answers: Json
+          client_id: string
+          created_at: string
+          id: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          answers?: Json
+          client_id: string
+          created_at?: string
+          id?: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          answers?: Json
+          client_id?: string
+          created_at?: string
+          id?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "nutricionista" | "cliente"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +337,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "nutricionista", "cliente"],
+    },
   },
 } as const
