@@ -237,17 +237,7 @@ A plataforma não realiza diagnósticos médicos, prescrições de medicamentos 
 
 ---
 
-## 📄 Licença
-
-Projeto privado.
-
-Todos os direitos reservados.
-
----
-
 ## 👨‍💻 Desenvolvido por
 
-DietAI Pro
-
-Plataforma inteligente para gestão nutricional assistida por IA.
+Rodrigo Colares
 
