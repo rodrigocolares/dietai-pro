@@ -241,3 +241,5 @@ A plataforma não realiza diagnósticos médicos, prescrições de medicamentos 
 
 Rodrigo Colares
 
+Enterprise Infrastructure | Cloud Operations | Observability | SRE | AI for Operations
+
