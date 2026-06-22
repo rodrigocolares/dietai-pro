@@ -6,7 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { CheckCircle2, Clock, FileText } from "lucide-react";
+import { CheckCircle2, Clock, FileText, Download } from "lucide-react";
+import { downloadDietPdf } from "@/lib/dietPdf";
 
 type Diet = {
   id: string; title: string; status: string; created_at: string; approved_at: string | null;
