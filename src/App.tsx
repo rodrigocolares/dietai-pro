@@ -15,6 +15,7 @@ import DietView from "./pages/DietView";
 import NutriDashboard from "./pages/NutriDashboard";
 import NutriClients from "./pages/NutriClients";
 import NutriDiets from "./pages/NutriDiets";
+import NutriEmails from "./pages/NutriEmails";
 import DietReview from "./pages/DietReview";
 import NotFound from "./pages/NotFound";
 
