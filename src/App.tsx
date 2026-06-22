@@ -15,6 +15,7 @@ import DietView from "./pages/DietView";
 import NutriDashboard from "./pages/NutriDashboard";
 import NutriClients from "./pages/NutriClients";
 import NutriDiets from "./pages/NutriDiets";
+import NutriEmails from "./pages/NutriEmails";
 import DietReview from "./pages/DietReview";
 import NotFound from "./pages/NotFound";
 
@@ -47,6 +48,7 @@ const App = () => (
             <Route path="/nutri/clientes" element={<ProtectedRoute allow={["nutricionista", "admin"]}><NutriClients /></ProtectedRoute>} />
             <Route path="/nutri/dietas" element={<ProtectedRoute allow={["nutricionista", "admin"]}><NutriDiets /></ProtectedRoute>} />
             <Route path="/nutri/revisar/:id" element={<ProtectedRoute allow={["nutricionista", "admin"]}><DietReview /></ProtectedRoute>} />
+            <Route path="/nutri/emails" element={<ProtectedRoute allow={["nutricionista", "admin"]}><NutriEmails /></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>

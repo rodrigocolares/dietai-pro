@@ -36,6 +36,9 @@ export default function DietReview() {
         approved_at: approve ? new Date().toISOString() : null,
       }).eq("id", id!);
       if (error) throw error;
+      if (approve) {
+        supabase.functions.invoke("send-email-notification", { body: { template_name: "diet_approved", diet_id: id! } }).catch(() => {});
+      }
       toast.success(approve ? "Dieta aprovada e enviada ao cliente!" : "Alterações salvas.");
       if (approve) nav("/nutri");
     } catch (e: any) {

@@ -47,6 +47,10 @@ export default function Questionnaire() {
     setLoading(false);
     if (gErr) return toast.error("Erro ao gerar dieta: " + gErr.message);
     toast.success("Dieta gerada! Aguardando revisão do nutricionista.");
+    const dietId = gen?.diet?.id ?? gen?.diet_id;
+    if (dietId) {
+      supabase.functions.invoke("send-email-notification", { body: { template_name: "diet_pending_review", diet_id: dietId } }).catch(() => {});
+    }
     nav("/area");
   };
 

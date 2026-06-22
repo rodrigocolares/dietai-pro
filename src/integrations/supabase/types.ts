@@ -124,6 +124,59 @@ export type Database = {
           },
         ]
       }
+      email_logs: {
+        Row: {
+          channel: string
+          created_at: string
+          diet_id: string | null
+          error_message: string | null
+          id: string
+          payload: Json | null
+          recipient_email: string
+          sent_at: string | null
+          status: string
+          subject: string
+          template_name: string
+          user_id: string | null
+        }
+        Insert: {
+          channel?: string
+          created_at?: string
+          diet_id?: string | null
+          error_message?: string | null
+          id?: string
+          payload?: Json | null
+          recipient_email: string
+          sent_at?: string | null
+          status?: string
+          subject: string
+          template_name: string
+          user_id?: string | null
+        }
+        Update: {
+          channel?: string
+          created_at?: string
+          diet_id?: string | null
+          error_message?: string | null
+          id?: string
+          payload?: Json | null
+          recipient_email?: string
+          sent_at?: string | null
+          status?: string
+          subject?: string
+          template_name?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "email_logs_diet_id_fkey"
+            columns: ["diet_id"]
+            isOneToOne: false
+            referencedRelation: "diets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       pdf_logs: {
         Row: {
           client_id: string

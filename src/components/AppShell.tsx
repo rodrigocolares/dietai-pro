@@ -32,6 +32,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 <Link to="/nutri" className="hover:text-primary">Dashboard</Link>
                 <Link to="/nutri/clientes" className="hover:text-primary">Clientes</Link>
                 <Link to="/nutri/dietas" className="hover:text-primary">Dietas</Link>
+                <Link to="/nutri/emails" className="hover:text-primary">E-mails</Link>
               </>
             )}
           </nav>
