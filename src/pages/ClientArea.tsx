@@ -6,7 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { CheckCircle2, Clock, FileText } from "lucide-react";
+import { CheckCircle2, Clock, FileText, Download } from "lucide-react";
+import { downloadDietPdf } from "@/lib/dietPdf";
 
 type Diet = {
   id: string; title: string; status: string; created_at: string; approved_at: string | null;
@@ -66,8 +67,9 @@ export default function ClientArea() {
                 )}
               </CardHeader>
               {d.status === "approved" && (
-                <CardContent>
+                <CardContent className="flex gap-2 flex-wrap">
                   <Button asChild size="sm"><Link to={`/dieta/${d.id}`}>Ver dieta completa</Link></Button>
+                  <Button size="sm" variant="outline" onClick={() => downloadDietPdf(d.id)}><Download className="w-4 h-4 mr-1" />Baixar PDF</Button>
                 </CardContent>
               )}
             </Card>

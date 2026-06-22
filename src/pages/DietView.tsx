@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { downloadDietPdf } from "@/lib/dietPdf";
 
 export default function DietView() {
   const { id } = useParams();
@@ -77,7 +78,8 @@ export default function DietView() {
         )}
 
         <div className="flex gap-2">
-          <Button onClick={() => window.print()}>Imprimir / Salvar PDF</Button>
+          {diet.status === "approved" && <Button onClick={() => downloadDietPdf(diet.id)}>Baixar PDF</Button>}
+          <Button variant="outline" onClick={() => window.print()}>Imprimir</Button>
           <Button asChild variant="outline"><Link to="/area">Voltar</Link></Button>
         </div>
       </div>

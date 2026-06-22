@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { downloadDietPdf } from "@/lib/dietPdf";
 
 export default function DietReview() {
   const { id } = useParams();
@@ -70,9 +71,12 @@ export default function DietReview() {
           </CardContent>
         </Card>
 
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
           <Button onClick={() => save(false)} variant="outline">Salvar rascunho</Button>
           <Button onClick={() => save(true)}>Aprovar e liberar para cliente</Button>
+          {diet.status === "approved" && (
+            <Button variant="secondary" onClick={() => downloadDietPdf(diet.id)}>Gerar PDF</Button>
+          )}
         </div>
       </div>
     </AppShell>
