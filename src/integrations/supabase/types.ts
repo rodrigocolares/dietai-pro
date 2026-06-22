@@ -124,6 +124,41 @@ export type Database = {
           },
         ]
       }
+      pdf_logs: {
+        Row: {
+          client_id: string
+          created_at: string
+          diet_id: string
+          file_path: string
+          generated_by: string
+          id: string
+        }
+        Insert: {
+          client_id: string
+          created_at?: string
+          diet_id: string
+          file_path: string
+          generated_by: string
+          id?: string
+        }
+        Update: {
+          client_id?: string
+          created_at?: string
+          diet_id?: string
+          file_path?: string
+          generated_by?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pdf_logs_diet_id_fkey"
+            columns: ["diet_id"]
+            isOneToOne: false
+            referencedRelation: "diets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
