@@ -78,7 +78,8 @@ export default function DietView() {
         )}
 
         <div className="flex gap-2">
-          <Button onClick={() => window.print()}>Imprimir / Salvar PDF</Button>
+          {diet.status === "approved" && <Button onClick={() => downloadDietPdf(diet.id)}>Baixar PDF</Button>}
+          <Button variant="outline" onClick={() => window.print()}>Imprimir</Button>
           <Button asChild variant="outline"><Link to="/area">Voltar</Link></Button>
         </div>
       </div>
