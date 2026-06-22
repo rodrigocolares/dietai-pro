@@ -8,6 +8,7 @@ export async function downloadDietPdf(dietId: string) {
     if (error) throw error;
     if (!data?.url) throw new Error("URL não retornada");
     window.open(data.url as string, "_blank", "noopener");
+    supabase.functions.invoke("send-email-notification", { body: { template_name: "pdf_generated", diet_id: dietId } }).catch(() => {});
     toast.success("PDF gerado! Use o botão Imprimir / Salvar PDF na página aberta.", { id: t });
   } catch (e: any) {
     toast.error("Falha ao gerar PDF: " + (e.message ?? "erro"), { id: t });
