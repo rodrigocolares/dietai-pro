@@ -48,7 +48,7 @@ const App = () => (
             <Route path="/nutri/clientes" element={<ProtectedRoute allow={["nutricionista", "admin"]}><NutriClients /></ProtectedRoute>} />
             <Route path="/nutri/dietas" element={<ProtectedRoute allow={["nutricionista", "admin"]}><NutriDiets /></ProtectedRoute>} />
             <Route path="/nutri/revisar/:id" element={<ProtectedRoute allow={["nutricionista", "admin"]}><DietReview /></ProtectedRoute>} />
-            <Route path="/nutri/emails" element={<ProtectedRoute allow={["nutricionista", "admin"]}><NutriEmails /></ProtectedRoute>} />)
+            <Route path="/nutri/emails" element={<ProtectedRoute allow={["nutricionista", "admin"]}><NutriEmails /></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>
