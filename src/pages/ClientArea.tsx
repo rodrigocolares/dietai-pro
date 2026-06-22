@@ -67,8 +67,9 @@ export default function ClientArea() {
                 )}
               </CardHeader>
               {d.status === "approved" && (
-                <CardContent>
+                <CardContent className="flex gap-2 flex-wrap">
                   <Button asChild size="sm"><Link to={`/dieta/${d.id}`}>Ver dieta completa</Link></Button>
+                  <Button size="sm" variant="outline" onClick={() => downloadDietPdf(d.id)}><Download className="w-4 h-4 mr-1" />Baixar PDF</Button>
                 </CardContent>
               )}
             </Card>
