@@ -36,6 +36,16 @@ Deno.serve(async (req) => {
 
     if (!q) throw new Error("Questionário não encontrado");
 
+    // Load TACO foods to ground the AI in the institutional base
+    const { data: foods } = await supabase
+      .from("foods")
+      .select("nome,categoria,porcao_referencia,calorias,proteinas,carboidratos,gorduras")
+      .eq("ativo", true)
+      .limit(500);
+    const foodsLine = (foods ?? []).map((f: any) =>
+      `- ${f.nome} [${f.categoria}] (${f.porcao_referencia}): ${f.calorias}kcal | P:${f.proteinas} C:${f.carboidratos} G:${f.gorduras}`
+    ).join("\n");
+
     const systemPrompt = `Você é um(a) nutricionista clínico(a) experiente. Gere um plano alimentar personalizado em JSON estrito com este formato:
 {
   "title": "string",
@@ -43,12 +53,24 @@ Deno.serve(async (req) => {
   "calories_target": number,
   "macros": { "protein_g": number, "carbs_g": number, "fat_g": number },
   "meals": [
-    { "name": "Café da manhã", "time": "07:00", "items": [{ "food": "string", "qty": "string", "kcal": number }] }
+    {
+      "name": "Café da manhã",
+      "time": "07:00",
+      "items": [{ "food": "string", "qty": "string", "kcal": number, "protein_g": number, "carbs_g": number, "fat_g": number }],
+      "totals": { "kcal": number, "protein_g": number, "carbs_g": number, "fat_g": number }
+    }
   ],
+  "daily_totals": { "kcal": number, "protein_g": number, "carbs_g": number, "fat_g": number },
   "shopping_list": [{ "category": "string", "items": ["string"] }],
   "guidance": "string com orientações gerais, hidratação, suplementação e contraindicações"
 }
-IMPORTANTE: este plano é uma SUGESTÃO inicial que será revisada por um nutricionista humano antes de ser entregue ao paciente. Não retorne nada fora do JSON.`;
+REGRAS:
+- Priorize usar alimentos da BASE TACO abaixo. Só sugira alimentos fora da base quando estritamente necessário, e justifique em "guidance".
+- Calcule "totals" por refeição e "daily_totals" somando os items (proporcionalmente à quantidade indicada).
+- Este plano é uma SUGESTÃO inicial que será revisada por um nutricionista humano antes da entrega. Não retorne nada fora do JSON.
+
+BASE TACO (valores por porção de referência):
+${foodsLine || "(base vazia — use alimentos comuns brasileiros)"}`;
 
     const userPrompt = `Dados do paciente (respostas do questionário):\n${JSON.stringify(q.answers, null, 2)}`;
 

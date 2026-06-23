@@ -177,6 +177,102 @@ export type Database = {
           },
         ]
       }
+      food_substitutions: {
+        Row: {
+          created_at: string
+          equivalencia: string
+          food_id: string
+          id: string
+          observacoes: string | null
+          substitute_food_id: string
+        }
+        Insert: {
+          created_at?: string
+          equivalencia?: string
+          food_id: string
+          id?: string
+          observacoes?: string | null
+          substitute_food_id: string
+        }
+        Update: {
+          created_at?: string
+          equivalencia?: string
+          food_id?: string
+          id?: string
+          observacoes?: string | null
+          substitute_food_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "food_substitutions_food_id_fkey"
+            columns: ["food_id"]
+            isOneToOne: false
+            referencedRelation: "foods"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "food_substitutions_substitute_food_id_fkey"
+            columns: ["substitute_food_id"]
+            isOneToOne: false
+            referencedRelation: "foods"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      foods: {
+        Row: {
+          ativo: boolean
+          calorias: number
+          carboidratos: number
+          categoria: string
+          codigo_taco: string | null
+          created_at: string
+          fibras: number | null
+          gorduras: number
+          id: string
+          nome: string
+          observacoes: string | null
+          porcao_referencia: string
+          proteinas: number
+          sodio: number | null
+          updated_at: string
+        }
+        Insert: {
+          ativo?: boolean
+          calorias?: number
+          carboidratos?: number
+          categoria: string
+          codigo_taco?: string | null
+          created_at?: string
+          fibras?: number | null
+          gorduras?: number
+          id?: string
+          nome: string
+          observacoes?: string | null
+          porcao_referencia?: string
+          proteinas?: number
+          sodio?: number | null
+          updated_at?: string
+        }
+        Update: {
+          ativo?: boolean
+          calorias?: number
+          carboidratos?: number
+          categoria?: string
+          codigo_taco?: string | null
+          created_at?: string
+          fibras?: number | null
+          gorduras?: number
+          id?: string
+          nome?: string
+          observacoes?: string | null
+          porcao_referencia?: string
+          proteinas?: number
+          sodio?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       pdf_logs: {
         Row: {
           client_id: string

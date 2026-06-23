@@ -93,7 +93,34 @@ function buildHtml(opts: { client: string; nutri: string; diet: any; answers: an
     <div class="stat"><div class="v">${escapeHtml(c.macros?.fat_g ?? "—")}g</div><div class="l">gordura</div></div>
   </div>` : ""}
 
-  ${meals.length ? `<h2>Plano alimentar</h2>${meals.map((m: any) => `
+  ${(() => {
+    const dt = c.daily_totals ?? null;
+    if (!dt && !c.macros) return "";
+    const p = Number(dt?.protein_g ?? c.macros?.protein_g ?? 0);
+    const cb = Number(dt?.carbs_g ?? c.macros?.carbs_g ?? 0);
+    const g = Number(dt?.fat_g ?? c.macros?.fat_g ?? 0);
+    const kcal = Number(dt?.kcal ?? c.calories_target ?? (p*4 + cb*4 + g*9));
+    const kcalP = p*4, kcalC = cb*4, kcalG = g*9;
+    const tot = kcalP + kcalC + kcalG || 1;
+    const pctP = Math.round(kcalP/tot*100), pctC = Math.round(kcalC/tot*100), pctG = 100 - pctP - pctC;
+    return `<h2>Resumo nutricional diário</h2>
+      <div class="grid">
+        <div class="stat"><div class="v">${Math.round(kcal)}</div><div class="l">kcal totais</div></div>
+        <div class="stat"><div class="v">${p.toFixed(0)}g</div><div class="l">proteína (${pctP}%)</div></div>
+        <div class="stat"><div class="v">${cb.toFixed(0)}g</div><div class="l">carboidrato (${pctC}%)</div></div>
+        <div class="stat"><div class="v">${g.toFixed(0)}g</div><div class="l">gordura (${pctG}%)</div></div>
+      </div>
+      <div style="display:flex;height:14px;border-radius:7px;overflow:hidden;margin:8px 0 4px;background:#e5e7eb">
+        <div style="width:${pctP}%;background:#16a34a"></div>
+        <div style="width:${pctC}%;background:#f59e0b"></div>
+        <div style="width:${pctG}%;background:#3b82f6"></div>
+      </div>
+      <div style="font-size:11px;color:#64748b">Distribuição de macros (por kcal): proteína • carboidrato • gordura</div>`;
+  })()}
+
+  ${meals.length ? `<h2>Plano alimentar</h2>${meals.map((m: any) => {
+    const totals = m.totals ?? null;
+    return `
     <div class="meal">
       <div class="meal-head">
         <div class="meal-name">${escapeHtml(m.name)}</div>
@@ -102,9 +129,10 @@ function buildHtml(opts: { client: string; nutri: string; diet: any; answers: an
       <table>${(m.items ?? []).map((it: any) => `
         <tr><td>${escapeHtml(it.food)}</td><td class="qty">${escapeHtml(it.qty ?? "")}</td><td class="kcal">${it.kcal ? escapeHtml(it.kcal) + " kcal" : ""}</td></tr>
       `).join("")}</table>
+      ${totals ? `<div style="margin-top:6px;font-size:12px;color:#475569"><b>Totais:</b> ${Math.round(totals.kcal ?? 0)} kcal · P ${Number(totals.protein_g ?? 0).toFixed(0)}g · C ${Number(totals.carbs_g ?? 0).toFixed(0)}g · G ${Number(totals.fat_g ?? 0).toFixed(0)}g</div>` : ""}
       ${Array.isArray(m.substitutions) && m.substitutions.length ? `<div class="subs"><b>Substituições:</b> ${m.substitutions.map((s: any) => escapeHtml(typeof s === "string" ? s : `${s.food} → ${s.replace_with}`)).join(" • ")}</div>` : ""}
     </div>
-  `).join("")}` : ""}
+  `;}).join("")}` : ""}
 
   ${shopping.length ? `<h2>Lista de compras</h2>${shopping.map((cat: any) => `
     <div class="shop-cat"><b>${escapeHtml(cat.category)}</b><ul>${(cat.items ?? []).map((it: any) => `<li>${escapeHtml(it)}</li>`).join("")}</ul></div>
