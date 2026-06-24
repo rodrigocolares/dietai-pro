@@ -19,6 +19,9 @@ import NutriEmails from "./pages/NutriEmails";
 import NutriFoods from "./pages/NutriFoods";
 import NutriStats from "./pages/NutriStats";
 import DietReview from "./pages/DietReview";
+import Plans from "./pages/Plans";
+import NutriSubscription from "./pages/NutriSubscription";
+import AdminSaaS from "./pages/AdminSaaS";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
