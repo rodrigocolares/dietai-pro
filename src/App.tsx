@@ -56,6 +56,9 @@ const App = () => (
             <Route path="/nutri/emails" element={<ProtectedRoute allow={["nutricionista", "admin"]}><NutriEmails /></ProtectedRoute>} />
             <Route path="/nutri/alimentos" element={<ProtectedRoute allow={["nutricionista", "admin"]}><NutriFoods /></ProtectedRoute>} />
             <Route path="/nutri/indicadores" element={<ProtectedRoute allow={["nutricionista", "admin"]}><NutriStats /></ProtectedRoute>} />
+            <Route path="/planos" element={<Plans />} />
+            <Route path="/nutri/assinatura" element={<ProtectedRoute allow={["nutricionista", "admin"]}><NutriSubscription /></ProtectedRoute>} />
+            <Route path="/admin/saas" element={<ProtectedRoute allow={["admin"]}><AdminSaaS /></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>
