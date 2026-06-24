@@ -20,6 +20,7 @@ export type Database = {
           content: string
           created_at: string
           id: string
+          organization_id: string | null
           role: string
         }
         Insert: {
@@ -27,6 +28,7 @@ export type Database = {
           content: string
           created_at?: string
           id?: string
+          organization_id?: string | null
           role: string
         }
         Update: {
@@ -34,9 +36,18 @@ export type Database = {
           content?: string
           created_at?: string
           id?: string
+          organization_id?: string | null
           role?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "chat_messages_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       check_ins: {
         Row: {
@@ -46,6 +57,7 @@ export type Database = {
           id: string
           mood: string | null
           notes: string | null
+          organization_id: string | null
           weight: number | null
         }
         Insert: {
@@ -55,6 +67,7 @@ export type Database = {
           id?: string
           mood?: string | null
           notes?: string | null
+          organization_id?: string | null
           weight?: number | null
         }
         Update: {
@@ -64,9 +77,18 @@ export type Database = {
           id?: string
           mood?: string | null
           notes?: string | null
+          organization_id?: string | null
           weight?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "check_ins_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       diets: {
         Row: {
@@ -77,6 +99,7 @@ export type Database = {
           guidance: string | null
           id: string
           nutritionist_id: string | null
+          organization_id: string | null
           pdf_url: string | null
           questionnaire_id: string | null
           shopping_list: Json | null
@@ -92,6 +115,7 @@ export type Database = {
           guidance?: string | null
           id?: string
           nutritionist_id?: string | null
+          organization_id?: string | null
           pdf_url?: string | null
           questionnaire_id?: string | null
           shopping_list?: Json | null
@@ -107,6 +131,7 @@ export type Database = {
           guidance?: string | null
           id?: string
           nutritionist_id?: string | null
+          organization_id?: string | null
           pdf_url?: string | null
           questionnaire_id?: string | null
           shopping_list?: Json | null
@@ -115,6 +140,13 @@ export type Database = {
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "diets_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "diets_questionnaire_id_fkey"
             columns: ["questionnaire_id"]
@@ -131,6 +163,7 @@ export type Database = {
           diet_id: string | null
           error_message: string | null
           id: string
+          organization_id: string | null
           payload: Json | null
           recipient_email: string
           sent_at: string | null
@@ -145,6 +178,7 @@ export type Database = {
           diet_id?: string | null
           error_message?: string | null
           id?: string
+          organization_id?: string | null
           payload?: Json | null
           recipient_email: string
           sent_at?: string | null
@@ -159,6 +193,7 @@ export type Database = {
           diet_id?: string | null
           error_message?: string | null
           id?: string
+          organization_id?: string | null
           payload?: Json | null
           recipient_email?: string
           sent_at?: string | null
@@ -175,6 +210,13 @@ export type Database = {
             referencedRelation: "diets"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "email_logs_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
         ]
       }
       food_substitutions: {
@@ -184,6 +226,7 @@ export type Database = {
           food_id: string
           id: string
           observacoes: string | null
+          organization_id: string | null
           substitute_food_id: string
         }
         Insert: {
@@ -192,6 +235,7 @@ export type Database = {
           food_id: string
           id?: string
           observacoes?: string | null
+          organization_id?: string | null
           substitute_food_id: string
         }
         Update: {
@@ -200,6 +244,7 @@ export type Database = {
           food_id?: string
           id?: string
           observacoes?: string | null
+          organization_id?: string | null
           substitute_food_id?: string
         }
         Relationships: [
@@ -208,6 +253,13 @@ export type Database = {
             columns: ["food_id"]
             isOneToOne: false
             referencedRelation: "foods"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "food_substitutions_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
             referencedColumns: ["id"]
           },
           {
@@ -232,6 +284,7 @@ export type Database = {
           id: string
           nome: string
           observacoes: string | null
+          organization_id: string | null
           porcao_referencia: string
           proteinas: number
           sodio: number | null
@@ -249,6 +302,7 @@ export type Database = {
           id?: string
           nome: string
           observacoes?: string | null
+          organization_id?: string | null
           porcao_referencia?: string
           proteinas?: number
           sodio?: number | null
@@ -266,9 +320,48 @@ export type Database = {
           id?: string
           nome?: string
           observacoes?: string | null
+          organization_id?: string | null
           porcao_referencia?: string
           proteinas?: number
           sodio?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "foods_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      organizations: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          owner_user_id: string
+          slug: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          owner_user_id: string
+          slug: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          owner_user_id?: string
+          slug?: string
+          status?: string
           updated_at?: string
         }
         Relationships: []
@@ -281,6 +374,7 @@ export type Database = {
           file_path: string
           generated_by: string
           id: string
+          organization_id: string | null
         }
         Insert: {
           client_id: string
@@ -289,6 +383,7 @@ export type Database = {
           file_path: string
           generated_by: string
           id?: string
+          organization_id?: string | null
         }
         Update: {
           client_id?: string
@@ -297,6 +392,7 @@ export type Database = {
           file_path?: string
           generated_by?: string
           id?: string
+          organization_id?: string | null
         }
         Relationships: [
           {
@@ -304,6 +400,13 @@ export type Database = {
             columns: ["diet_id"]
             isOneToOne: false
             referencedRelation: "diets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pdf_logs_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
             referencedColumns: ["id"]
           },
         ]
@@ -314,6 +417,7 @@ export type Database = {
           created_at: string
           full_name: string | null
           id: string
+          organization_id: string | null
           phone: string | null
           updated_at: string
         }
@@ -322,6 +426,7 @@ export type Database = {
           created_at?: string
           full_name?: string | null
           id: string
+          organization_id?: string | null
           phone?: string | null
           updated_at?: string
         }
@@ -330,10 +435,19 @@ export type Database = {
           created_at?: string
           full_name?: string | null
           id?: string
+          organization_id?: string | null
           phone?: string | null
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "profiles_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       questionnaires: {
         Row: {
@@ -341,6 +455,7 @@ export type Database = {
           client_id: string
           created_at: string
           id: string
+          organization_id: string | null
           status: string
           updated_at: string
         }
@@ -349,6 +464,7 @@ export type Database = {
           client_id: string
           created_at?: string
           id?: string
+          organization_id?: string | null
           status?: string
           updated_at?: string
         }
@@ -357,10 +473,183 @@ export type Database = {
           client_id?: string
           created_at?: string
           id?: string
+          organization_id?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "questionnaires_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      subscription_plans: {
+        Row: {
+          code: string
+          created_at: string
+          currency: string
+          description: string | null
+          features: Json
+          id: string
+          max_clients: number
+          max_diets_per_month: number
+          max_pdfs_per_month: number
+          name: string
+          price_cents: number
+          sort_order: number
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          currency?: string
+          description?: string | null
+          features?: Json
+          id?: string
+          max_clients?: number
+          max_diets_per_month?: number
+          max_pdfs_per_month?: number
+          name: string
+          price_cents?: number
+          sort_order?: number
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          currency?: string
+          description?: string | null
+          features?: Json
+          id?: string
+          max_clients?: number
+          max_diets_per_month?: number
+          max_pdfs_per_month?: number
+          name?: string
+          price_cents?: number
+          sort_order?: number
           status?: string
           updated_at?: string
         }
         Relationships: []
+      }
+      subscriptions: {
+        Row: {
+          cancel_at_period_end: boolean
+          checkout_url: string | null
+          created_at: string
+          current_period_end: string
+          current_period_start: string
+          id: string
+          organization_id: string
+          payment_status: string | null
+          plan_id: string
+          provider: string | null
+          provider_subscription_id: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          cancel_at_period_end?: boolean
+          checkout_url?: string | null
+          created_at?: string
+          current_period_end?: string
+          current_period_start?: string
+          id?: string
+          organization_id: string
+          payment_status?: string | null
+          plan_id: string
+          provider?: string | null
+          provider_subscription_id?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          cancel_at_period_end?: boolean
+          checkout_url?: string | null
+          created_at?: string
+          current_period_end?: string
+          current_period_start?: string
+          id?: string
+          organization_id?: string
+          payment_status?: string | null
+          plan_id?: string
+          provider?: string | null
+          provider_subscription_id?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscriptions_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "subscriptions_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "subscription_plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      usage_counters: {
+        Row: {
+          active_clients: number
+          chat_messages: number
+          created_at: string
+          diets_generated: number
+          emails_sent: number
+          id: string
+          organization_id: string
+          pdfs_generated: number
+          period_month: number
+          period_year: number
+          updated_at: string
+        }
+        Insert: {
+          active_clients?: number
+          chat_messages?: number
+          created_at?: string
+          diets_generated?: number
+          emails_sent?: number
+          id?: string
+          organization_id: string
+          pdfs_generated?: number
+          period_month: number
+          period_year: number
+          updated_at?: string
+        }
+        Update: {
+          active_clients?: number
+          chat_messages?: number
+          created_at?: string
+          diets_generated?: number
+          emails_sent?: number
+          id?: string
+          organization_id?: string
+          pdfs_generated?: number
+          period_month?: number
+          period_year?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "usage_counters_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {
@@ -380,11 +669,47 @@ export type Database = {
         }
         Relationships: []
       }
+      webhook_logs: {
+        Row: {
+          created_at: string
+          error: string | null
+          event_type: string
+          id: string
+          payload: Json | null
+          provider: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          error?: string | null
+          event_type: string
+          id?: string
+          payload?: Json | null
+          provider: string
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          error?: string | null
+          event_type?: string
+          id?: string
+          payload?: Json | null
+          provider?: string
+          status?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      bump_usage: {
+        Args: { _by?: number; _field: string; _org: string }
+        Returns: undefined
+      }
+      check_org_limit: { Args: { _field: string; _org: string }; Returns: Json }
+      get_user_organization_id: { Args: { _user_id: string }; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -392,9 +717,10 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_super_admin: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
-      app_role: "admin" | "nutricionista" | "cliente"
+      app_role: "admin" | "nutricionista" | "cliente" | "super_admin"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -522,7 +848,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "nutricionista", "cliente"],
+      app_role: ["admin", "nutricionista", "cliente", "super_admin"],
     },
   },
 } as const
