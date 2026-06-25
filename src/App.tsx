@@ -64,6 +64,7 @@ const App = () => (
               <Route path="/planos" element={<Plans />} />
               <Route path="/nutri/assinatura" element={<ProtectedRoute allow={["nutricionista", "admin"]}><NutriSubscription /></ProtectedRoute>} />
               <Route path="/admin/saas" element={<ProtectedRoute allow={["admin", "super_admin"]}><AdminSaaS /></ProtectedRoute>} />
+              <Route path="/admin/testes" element={<ProtectedRoute allow={["admin", "super_admin", "nutricionista"]}><AdminTests /></ProtectedRoute>} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </AuthProvider>
