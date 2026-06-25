@@ -23,6 +23,7 @@ import DietReview from "./pages/DietReview";
 import Plans from "./pages/Plans";
 import NutriSubscription from "./pages/NutriSubscription";
 import AdminSaaS from "./pages/AdminSaaS";
+import AdminTests from "./pages/AdminTests";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -63,6 +64,7 @@ const App = () => (
               <Route path="/planos" element={<Plans />} />
               <Route path="/nutri/assinatura" element={<ProtectedRoute allow={["nutricionista", "admin"]}><NutriSubscription /></ProtectedRoute>} />
               <Route path="/admin/saas" element={<ProtectedRoute allow={["admin", "super_admin"]}><AdminSaaS /></ProtectedRoute>} />
+              <Route path="/admin/testes" element={<ProtectedRoute allow={["admin", "super_admin", "nutricionista"]}><AdminTests /></ProtectedRoute>} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </AuthProvider>
