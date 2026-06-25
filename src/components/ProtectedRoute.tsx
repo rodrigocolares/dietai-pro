@@ -20,8 +20,23 @@ export default function ProtectedRoute({
     );
   }
   if (!user) return <Navigate to="/auth" replace />;
+  if (allow && roles.length === 0) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center gap-2 p-6 text-center">
+        <p className="text-lg font-medium">Seu usuário ainda não tem um perfil de acesso.</p>
+        <p className="text-sm text-muted-foreground">Entre em contato com o suporte para liberar seu acesso.</p>
+      </div>
+    );
+  }
   if (allow && !roles.some((r) => allow.includes(r) || r === "super_admin" || r === "admin")) {
-    return <Navigate to="/" replace />;
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center gap-2 p-6 text-center">
+        <p className="text-lg font-medium">Acesso negado</p>
+        <p className="text-sm text-muted-foreground">
+          Este recurso não está disponível para o seu perfil ({roles.join(", ") || "sem perfil"}).
+        </p>
+      </div>
+    );
   }
   return children;
 }

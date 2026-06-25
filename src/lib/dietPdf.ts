@@ -11,6 +11,13 @@ export async function downloadDietPdf(dietId: string) {
     supabase.functions.invoke("send-email-notification", { body: { template_name: "pdf_generated", diet_id: dietId } }).catch(() => {});
     toast.success("PDF gerado! Use o botão Imprimir / Salvar PDF na página aberta.", { id: t });
   } catch (e: any) {
-    toast.error("Falha ao gerar PDF: " + (e.message ?? "erro"), { id: t });
+    const msg = e?.context?.error || e?.message || "erro desconhecido";
+    if (/forbidden|denied|rls|permission/i.test(String(msg))) {
+      toast.error("Você não tem permissão para gerar o PDF desta dieta.", { id: t });
+    } else if (/storage/i.test(String(msg))) {
+      toast.error("Falha ao acessar o armazenamento do PDF. Tente novamente em instantes.", { id: t });
+    } else {
+      toast.error("Falha ao gerar PDF: " + msg, { id: t });
+    }
   }
 }
