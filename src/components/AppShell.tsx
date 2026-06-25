@@ -37,6 +37,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 <Link to="/nutri/emails" className="hover:text-primary">E-mails</Link>
                 <Link to="/nutri/assinatura" className="hover:text-primary">Assinatura</Link>
                 {roles.includes("admin") && <Link to="/admin/saas" className="hover:text-primary">SaaS</Link>}
+                <Link to="/admin/testes" className="hover:text-primary">Testes</Link>
               </>
             )}
             {!user && <Link to="/planos" className="hover:text-primary">Planos</Link>}
