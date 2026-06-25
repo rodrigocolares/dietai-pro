@@ -23,6 +23,7 @@ import DietReview from "./pages/DietReview";
 import Plans from "./pages/Plans";
 import NutriSubscription from "./pages/NutriSubscription";
 import AdminSaaS from "./pages/AdminSaaS";
+import AdminTests from "./pages/AdminTests";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
